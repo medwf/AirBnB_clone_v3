@@ -11,7 +11,7 @@ from models.state import State
 def states(state_id=None):
     """return a JSON: list of all State objects or one State,
     Or not found if id not exsit"""
-    if state_id == None:
+    if state_id is None:
         result = []
         states = storage.all(State).values()
         for state in states:
@@ -19,17 +19,18 @@ def states(state_id=None):
         return jsonify(result)
     else:
         state = storage.get(State, state_id)
-        if state == None:
+        if state is None:
             return make_response(jsonify({"error": "Not found"}), 404)
         return jsonify(state.to_dict())
 
 
-@app_views.route("/states/<state_id>", strict_slashes=False, methods=["DELETE"])
+@app_views.route("/states/<state_id>",
+                 strict_slashes=False, methods=["DELETE"])
 def delete_states(state_id):
     """return a JSON: delete a state object that match State_id
     or Not found if id not exist"""
     state = storage.get(State, state_id)
-    if state == None:
+    if state is None:
         return make_response(jsonify({"error": "Not found"}), 404)
     storage.delete(state)
     storage.save()
