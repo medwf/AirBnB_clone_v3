@@ -28,7 +28,7 @@ def users(user_id=None):
 @app_views.route("/users/<user_id>",
                  strict_slashes=False, methods=["DELETE"])
 def delete_user(user_id):
-    """return a JSON: delete a user object that match <user_id>
+    """return a JSON: delete a User object that match <user_id>
     or Not found if id not exist"""
     user = storage.get(User, user_id)
     if user is None:
