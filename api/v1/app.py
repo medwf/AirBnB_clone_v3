@@ -3,6 +3,7 @@
 from models import storage
 from api.v1.views import app_views
 from flask import Flask, make_response, jsonify
+from os import getenv
 
 """creating a Flask app"""
 app = Flask(__name__)
@@ -23,8 +24,6 @@ def not_found(error):
 
 
 if __name__ == '__main__':
-    from os import getenv
-
     if getenv("HBNB_API_HOST"):
         host = getenv("HBNB_API_HOST")
     else:
