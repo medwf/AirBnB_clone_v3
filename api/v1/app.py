@@ -7,6 +7,7 @@ from flask import Flask, make_response, jsonify
 """creating a Flask app"""
 app = Flask(__name__)
 app.register_blueprint(app_views)
+"""creating a Flask app"""
 
 
 @app.teardown_appcontext
