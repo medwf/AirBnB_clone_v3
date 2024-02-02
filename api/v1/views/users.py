@@ -42,11 +42,12 @@ def delete_user(user_id):
 def Create_user():
     """
     Create User :
+
     If the HTTP body request is not valid JSON,
-        raise a 400 error with the message Not a JSON
+    raise a 400 error with the message Not a JSON
     If the dictionary doesn't contain the key email and password,
-        raise a 400 error with the message Missing email,
-        or Missing password
+    raise a 400 error with the message Missing email,
+    or Missing password
     Returns: the new User with the status code 201
     """
     json_data = request.get_json(force=True, silent=True)
@@ -67,8 +68,9 @@ def Create_user():
 def Update_user(user_id):
     """
     Update User :
+
     If the HTTP body request is not valid JSON,
-        raise a 400 error with the message Not a JSON
+    raise a 400 error with the message Not a JSON
     Returns: the new User with the status code 200
     """
     json_data = request.get_json(force=True, silent=True)
