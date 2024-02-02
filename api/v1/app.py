@@ -4,6 +4,7 @@ from models import storage
 from api.v1.views import app_views
 from flask import Flask, make_response, jsonify
 
+"""creating a Flask app"""
 app = Flask(__name__)
 app.register_blueprint(app_views)
 
