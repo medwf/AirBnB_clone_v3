@@ -10,7 +10,9 @@ from models.amenity import Amenity
 from models.place import Place
 
 
-@app_views.route("/places/<place_id>/amenities", strict_slashes=False, methods=["GET"])
+@app_views.route("/places/<place_id>/amenities",
+                 strict_slashes=False,
+                 methods=["GET"])
 def Amenities(place_id):
     """return a JSON: list of all Amenities objects or one Amenities,
     Or not found if id not exsit"""
@@ -53,9 +55,9 @@ def delete_Amenity(place_id, amenity_id):
     return make_response(jsonify({}), 200)
 
 
-@app_views.route(
-    "/places/<place_id>/amenities/<amenity_id>", strict_slashes=False, methods=["POST"]
-)
+@app_views.route("/places/<place_id>/amenities/<amenity_id>",
+                 strict_slashes=False,
+                 methods=["POST"])
 def link_Amenity_place(place_id, amenity_id):
     """
     No HTTP body needed

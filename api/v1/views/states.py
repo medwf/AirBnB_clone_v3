@@ -25,7 +25,9 @@ def states(state_id=None):
         return jsonify(state.to_dict())
 
 
-@app_views.route("/states/<state_id>", strict_slashes=False, methods=["DELETE"])
+@app_views.route("/states/<state_id>",
+                 strict_slashes=False,
+                 methods=["DELETE"])
 def delete_states(state_id):
     """return a JSON: delete a state object that match State_id
     or Not found if id not exist"""

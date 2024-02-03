@@ -9,7 +9,9 @@ from models.city import City
 from models.state import State
 
 
-@app_views.route("/states/<state_id>/cities", strict_slashes=False, methods=["GET"])
+@app_views.route("/states/<state_id>/cities",
+                 strict_slashes=False,
+                 methods=["GET"])
 @app_views.route("/cities/<city_id>", strict_slashes=False, methods=["GET"])
 def cities(state_id=None, city_id=None):
     """Retrieves the list of all City objects of a State"""
@@ -40,7 +42,9 @@ def delete_city(city_id):
     return make_response(jsonify({}), 200)
 
 
-@app_views.route("/states/<state_id>/cities", strict_slashes=False, methods=["POST"])
+@app_views.route("/states/<state_id>/cities",
+                 strict_slashes=False,
+                 methods=["POST"])
 def Create_city(state_id):
     """
     If the state_id is not linked to any State object
