@@ -33,5 +33,5 @@ def stats():
         "places": places,
         "reviews": reviews,
         "states": states,
-        "users": users
+        "users": users,
     }
