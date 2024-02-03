@@ -1,4 +1,3 @@
-#!/usr/bin/python3
 """view for Place objects that handles all default RESTFul API actions"""
 from flask import jsonify, make_response, request
 from api.v1.views import app_views
