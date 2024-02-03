@@ -9,7 +9,8 @@ from models.review import Review
 
 
 @app_views.route("/places/<place_id>/reviews",
-                 strict_slashes=False, methods=["GET"])
+                 strict_slashes=False,
+                 methods=["GET"])
 @app_views.route("/reviews/<review_id>", strict_slashes=False, methods=["GET"])
 def reviews(place_id=None, review_id=None):
     """Retrieves the list of all review objects of a reviews
@@ -45,7 +46,8 @@ def delete_review(review_id):
 
 
 @app_views.route("/places/<place_id>/reviews",
-                 strict_slashes=False, methods=["POST"])
+                 strict_slashes=False,
+                 methods=["POST"])
 def create_review(place_id):
     """
     If the place_id is not linked to any City object, raise a 404 error
@@ -91,8 +93,8 @@ def update_review(review_id):
         return make_response(jsonify({"error": "Not found"}), 404)
     if json_data:
         for key, value in json_data.items():
-            if key not in ('id', 'user_id', 'place_id',
-                           'created_at', 'updated_at'):
+            if key not in ('id', 'user_id', 'place_id', 'created_at',
+                           'updated_at'):
                 setattr(storage.all()[f"Review.{review_id}"], key, value)
                 storage.all()[f"Review.{review_id}"].save()
         return jsonify(storage.all()[f"Review.{review_id}"].to_dict()), 200

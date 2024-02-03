@@ -10,7 +10,8 @@ from models.amenity import Amenity
 
 
 @app_views.route("/places/<place_id>/amenities",
-                 strict_slashes=False, methods=["GET"])
+                 strict_slashes=False,
+                 methods=["GET"])
 def Amenities(place_id):
     """return a JSON: list of all Amenities objects or one Amenities,
     Or not found if id not exsit"""
@@ -28,7 +29,8 @@ def Amenities(place_id):
 
 
 @app_views.route("/places/<place_id>/amenities/<amenity_id>",
-                 strict_slashes=False, methods=["DELETE"])
+                 strict_slashes=False,
+                 methods=["DELETE"])
 def delete_Amenity(place_id, amenity_id):
     """return a JSON: delete a Amenity object that match <amenity_id>
     or Not found if id not exist"""
@@ -51,7 +53,8 @@ def delete_Amenity(place_id, amenity_id):
 
 
 @app_views.route("/places/<place_id>/amenities/<amenity_id>",
-                 strict_slashes=False, methods=["POST"])
+                 strict_slashes=False,
+                 methods=["POST"])
 def link_Amenity_place(place_id, amenity_id):
     """
     No HTTP body needed

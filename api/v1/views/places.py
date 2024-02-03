@@ -9,7 +9,8 @@ from models.user import User
 
 
 @app_views.route("/cities/<city_id>/places",
-                 strict_slashes=False, methods=["GET"])
+                 strict_slashes=False,
+                 methods=["GET"])
 @app_views.route("/places/<place_id>", strict_slashes=False, methods=["GET"])
 def places(city_id=None, place_id=None):
     """Retrieves the list of all Place objects of a City
@@ -45,7 +46,8 @@ def delete_place(place_id):
 
 
 @app_views.route("/cities/<city_id>/places",
-                 strict_slashes=False, methods=["POST"])
+                 strict_slashes=False,
+                 methods=["POST"])
 def create_place(city_id):
     """
     If the city_id is not linked to any City object, raise a 404 error

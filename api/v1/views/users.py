@@ -7,8 +7,7 @@ from models.user import User
 import hashlib
 
 
-@app_views.route("/users/<user_id>",
-                 strict_slashes=False, methods=["GET"])
+@app_views.route("/users/<user_id>", strict_slashes=False, methods=["GET"])
 @app_views.route("/users", strict_slashes=False, methods=["GET"])
 def users(user_id=None):
     """return a JSON: list of all users objects or one User,
@@ -26,8 +25,7 @@ def users(user_id=None):
         return jsonify(user.to_dict())
 
 
-@app_views.route("/users/<user_id>",
-                 strict_slashes=False, methods=["DELETE"])
+@app_views.route("/users/<user_id>", strict_slashes=False, methods=["DELETE"])
 def delete_user(user_id):
     """return a JSON: delete a User object that match <user_id>
     or Not found if id not exist"""
@@ -64,8 +62,7 @@ def Create_user():
         return make_response("Not a JSON", 400)
 
 
-@app_views.route("/users/<user_id>",
-                 strict_slashes=False, methods=["PUT"])
+@app_views.route("/users/<user_id>", strict_slashes=False, methods=["PUT"])
 def Update_user(user_id):
     """
     Update User :

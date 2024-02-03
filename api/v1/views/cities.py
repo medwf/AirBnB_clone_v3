@@ -9,7 +9,8 @@ from models.state import State
 
 
 @app_views.route("/states/<state_id>/cities",
-                 strict_slashes=False, methods=["GET"])
+                 strict_slashes=False,
+                 methods=["GET"])
 @app_views.route("/cities/<city_id>", strict_slashes=False, methods=["GET"])
 def cities(state_id=None, city_id=None):
     """Retrieves the list of all City objects of a State"""
@@ -28,9 +29,7 @@ def cities(state_id=None, city_id=None):
     return make_response(jsonify({"error": "Not found"}), 404)
 
 
-@app_views.route("/cities/<city_id>",
-                 strict_slashes=False,
-                 methods=["DELETE"])
+@app_views.route("/cities/<city_id>", strict_slashes=False, methods=["DELETE"])
 def delete_city(city_id):
     """return a JSON: delete a state object that match city_id
     or Not found if id not exist"""
@@ -43,7 +42,8 @@ def delete_city(city_id):
 
 
 @app_views.route("/states/<state_id>/cities",
-                 strict_slashes=False, methods=["POST"])
+                 strict_slashes=False,
+                 methods=["POST"])
 def Create_city(state_id):
     """
     If the state_id is not linked to any State object
