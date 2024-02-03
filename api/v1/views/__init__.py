@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""import module"""
+"""this is init for Flask module"""
 
 from flask import Blueprint
 app_views = Blueprint('app_views', __name__)
