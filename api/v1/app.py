@@ -26,15 +26,14 @@ def not_found(error):
     return make_response(jsonify({"error": "Not found"}), 404)
 
 
+if getenv("HBNB_API_HOST"):
+    HOST = getenv("HBNB_API_HOST")
+else:
+    HOST = "0.0.0.0"
+if getenv("HBNB_API_PORT"):
+    PORT = int(getenv("HBNB_API_PORT"))
+else:
+    PORT = 5000
+
 if __name__ == '__main__':
-    if getenv("HBNB_API_HOST"):
-        host = getenv("HBNB_API_HOST")
-    else:
-        host = "0.0.0.0"
-
-    if getenv("HBNB_API_PORT"):
-        port = int(getenv("HBNB_API_PORT"))
-    else:
-        port = 5000
-
-    app.run(host=host, port=port, threaded=True)
+    app.run(host=HOST, port=PORT, threaded=True)
