@@ -1,10 +1,12 @@
 #!/usr/bin/python3
 """Importing modules"""
-from api.v1.views import app_views
+import hashlib
+
 from flask import jsonify, make_response, request
+
+from api.v1.views import app_views
 from models import storage
 from models.user import User
-import hashlib
 
 
 @app_views.route("/users/<user_id>", strict_slashes=False, methods=["GET"])

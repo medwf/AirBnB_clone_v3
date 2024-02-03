@@ -1,11 +1,12 @@
 #!/usr/bin/python3
 """view for Review objects that handles all default RESTFul API actions"""
-from api.v1.views import app_views
 from flask import jsonify, make_response, request
+
+from api.v1.views import app_views
 from models import storage
 from models.place import Place
-from models.user import User
 from models.review import Review
+from models.user import User
 
 
 @app_views.route("/places/<place_id>/reviews",

@@ -1,10 +1,11 @@
 #!/usr/bin/python3
 """State objects that handles all default RESTFul API"""
 
+from flask import jsonify, make_response, request
+
 from api.v1.views import app_views
 from models import storage
 from models.amenity import Amenity
-from flask import request, jsonify, make_response
 
 
 @app_views.route("/amenities/<amenity_id>",

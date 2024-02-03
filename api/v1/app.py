@@ -1,8 +1,10 @@
 #!/usr/bin/python3
 """Endpoint (route) will be to return the status of your API"""
 import os
+
 from flask import Flask
 from flask_cors import CORS
+
 from api.v1.views import app_views
 from models import storage
 
