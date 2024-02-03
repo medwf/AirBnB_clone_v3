@@ -1,5 +1,8 @@
 #!/usr/bin/python3
-"""Flask api AirBnB"""
+"""Flask API for AirBnB
+
+This script sets up a Flask application for an AirBnB API, providing endpoints
+to interact with AirBnB data"""
 from os import getenv
 from flask import Flask, make_response, jsonify
 from flask_cors import CORS
@@ -15,13 +18,26 @@ app.register_blueprint(app_views, url_prefix="/api/v1")
 
 @app.teardown_appcontext
 def teardown(_exp):
-    """close storage"""
+    """
+    Close the storage.
+
+    This function is decorated with `@app.teardown_appcontext`
+    and is called when the application context is popped.
+    It ensures that the storage is properly closed.
+    """
     storage.close()
 
 
 @app.errorhandler(404)
 def not_found(_error):
-    """ json 404 page """
+    """
+    Return a JSON response for 404 errors.
+
+    This function is decorated with `@app.errorhandler(404)`
+    and is called when a 404 error occurs.
+    It returns a JSON response with an error message
+    indicating that the requested resource was not found.
+    """
     return make_response(jsonify({"error": "Not found"}), 404)
 
 
