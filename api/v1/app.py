@@ -1,10 +1,10 @@
 #!/usr/bin/python3
 """Endpoint (route) will be to return the status of your API"""
+import os
 from flask import Flask
 from flask_cors import CORS
 from api.v1.views import app_views
 from models import storage
-import os
 
 # create a flask app
 app = Flask(__name__)
@@ -15,17 +15,14 @@ app.register_blueprint(app_views, url_prefix="/api/v1")
 
 @app.teardown_appcontext
 def close(_exp):
+    """this function close session"""
     storage.close()
 
 
 @app.errorhandler(404)
 def not_found(_error):
+    """return error 404 and json format"""
     return {"error": "Not found"}, 404
-
-
-@app.errorhandler(400)
-def not_found(error):
-    return error.description, 400
 
 
 if __name__ == '__main__':

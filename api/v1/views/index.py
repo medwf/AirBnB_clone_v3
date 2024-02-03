@@ -14,6 +14,7 @@ from models.user import User
 
 @app_views.route("/status", strict_slashes=False, methods=["GET"])
 def status():
+    """return status ok, 200"""
     return {
         "status": "OK"
     }
@@ -21,6 +22,7 @@ def status():
 
 @app_views.route("/stats", strict_slashes=False, methods=["GET"])
 def stats():
+    """return json list count all tables"""
     amenities = storage.count(Amenity)
     cities = storage.count(City)
     places = storage.count(Place)
