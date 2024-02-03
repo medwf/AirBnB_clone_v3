@@ -1,6 +1,5 @@
 #!/usr/bin/python3
-"""This script sets up a Flask application for an AirBnB API
-providing endpoints to interact with AirBnB data"""
+"""Endpoint (route) will be to return the status of your API"""
 from flask import Flask, jsonify
 from flask_cors import CORS
 from api.v1.views import app_views
