@@ -18,39 +18,16 @@ app.register_blueprint(app_views, url_prefix="/api/v1")
 
 @app.teardown_appcontext
 def teardown(_exp):
-    """
-    Close the storage.
-
-    This function is decorated with `@app.teardown_appcontext`
-    and is called when the application context is popped.
-    It ensures that the storage is properly closed.
-    """
     storage.close()
 
 
 @app.errorhandler(404)
 def not_found(_error):
-    """
-    Return a JSON response for 404 errors.
-
-    This function is decorated with `@app.errorhandler(404)`
-    and is called when a 404 error occurs.
-    It returns a JSON response with an error message
-    indicating that the requested resource was not found.
-    """
     return jsonify({"error": "Not found"}), 404
 
 
 @app.errorhandler(400)
 def not_found(error):
-    """
-    Return a JSON response for 400 errors.
-
-    This function is decorated with `@app.errorhandler(400)`
-    and is called when a 400 error occurs.
-    It returns a JSON response with an error message
-    indicating that the requested resource was not found.
-    """
     return error.description, 400
 
 
