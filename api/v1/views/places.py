@@ -19,15 +19,15 @@ def places(city_id=None, place_id=None):
         city = storage.get(City, city_id)
         if city:
             result = []
-            places = city.places
-            for place in places:
+            allplaces = city.places
+            for place in allplaces:
                 result.append(place.to_dict())
             return jsonify(result), 200
     if place_id:
         place = storage.get(Place, place_id)
         if place:
             return jsonify(place.to_dict()), 200
-        return make_response(jsonify({"error": "Not found"}), 404)
+    return make_response(jsonify({"error": "Not found"}), 404)
 
 
 @app_views.route("/places/<place_id>",
@@ -46,7 +46,7 @@ def delete_place(place_id):
 
 @app_views.route("/cities/<city_id>/places",
                  strict_slashes=False, methods=["POST"])
-def Create_place(city_id):
+def create_place(city_id):
     """
     If the city_id is not linked to any City object, raise a 404 error
     If the HTTP request body is not valid JSON,
@@ -78,12 +78,11 @@ def Create_place(city_id):
         instance = Place(**json_data)
         instance.save()
         return make_response(jsonify(instance.to_dict()), 201)
-    else:
-        return make_response("Not a JSON", 400)
+    return make_response("Not a JSON", 400)
 
 
 @app_views.route("/places/<place_id>", strict_slashes=False, methods=["PUT"])
-def Update_place(place_id):
+def update_place(place_id):
     """
     If the HTTP body request is not valid JSON,
     raise a 400 error with the message Not a JSON
@@ -93,11 +92,10 @@ def Update_place(place_id):
     json_data = request.get_json(force=True, silent=True)
     if not storage.get(Place, place_id):
         return make_response(jsonify({"error": "Not found"}), 404)
-    elif json_data:
+    if json_data:
         for key, value in json_data.items():
             if key not in ('id', 'user_id', 'created_at', 'updated_at'):
                 setattr(storage.all()[f"Place.{place_id}"], key, value)
                 storage.all()[f"Place.{place_id}"].save()
         return jsonify(storage.all()[f"Place.{place_id}"].to_dict()), 200
-    else:
-        return make_response("Not a JSON", 400)
+    return make_response("Not a JSON", 400)
