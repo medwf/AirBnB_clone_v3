@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""this is index views, route of blueprint
+"""This is index views, route of blueprint
 """
 
 from api.v1.views import app_views
