@@ -81,13 +81,14 @@ def Update_user(user_id):
     elif json_data:
         for key, value in json_data.items():
             if key not in ("id", "email", "created_at", "updated_at"):
-                setattr(storage.all()[f"User.{user_id}"], key, value)
-                if "password" in json_data:
+                if key == "password":
                     md5_hash = hashlib.md5()
                     encoded_value = json_data["password"].encode("utf-8")
                     md5_hash.update(encoded_value)
                     hashed_password = md5_hash.hexdigest()
                     setattr(user_instance, "password", hashed_password)
+                else:
+                    setattr(storage.all()[f"User.{user_id}"], key, value)
                 storage.save()
         return jsonify(storage.all()[f"User.{user_id}"].to_dict()), 200
     else:
