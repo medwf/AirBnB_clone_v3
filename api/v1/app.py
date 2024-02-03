@@ -27,7 +27,7 @@ def not_found(_error):
     return {"error": "Not found"}, 404
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     if os.getenv("HBNB_API_HOST"):
         HOST = os.getenv("HBNB_API_HOST")
     else:
