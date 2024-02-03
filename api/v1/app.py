@@ -1,11 +1,12 @@
 #!/usr/bin/python3
 """Endpoint (route) will be to return the status of your API"""
-from flask import Flask, jsonify
+from flask import Flask
 from flask_cors import CORS
 from api.v1.views import app_views
 from models import storage
 import os
 
+# create a flask app
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "0.0.0.0"}})
 
@@ -13,13 +14,13 @@ app.register_blueprint(app_views, url_prefix="/api/v1")
 
 
 @app.teardown_appcontext
-def teardown(_exp):
+def close(_exp):
     storage.close()
 
 
 @app.errorhandler(404)
 def not_found(_error):
-    return jsonify({"error": "Not found"}), 404
+    return {"error": "Not found"}, 404
 
 
 @app.errorhandler(400)
