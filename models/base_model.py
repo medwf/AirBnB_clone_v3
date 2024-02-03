@@ -10,6 +10,7 @@ import sqlalchemy
 from sqlalchemy import Column, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 import uuid
+import hashlib
 
 time = "%Y-%m-%dT%H:%M:%S.%f"
 
@@ -30,8 +31,14 @@ class BaseModel:
         """Initialization of the base model"""
         if kwargs:
             for key, value in kwargs.items():
-                if key != "__class__":
+                if key not in ["__class__", "password"]:
                     setattr(self, key, value)
+                if key == "password":
+                    md5_hash = hashlib.md5()
+                    encoded_value = value.encode('utf-8')
+                    md5_hash.update(encoded_value)
+                    hashed_password = md5_hash.hexdigest()
+                    setattr(self, key, hashed_password)
             if kwargs.get("created_at", None) and type(self.created_at) is str:
                 self.created_at = datetime.strptime(kwargs["created_at"], time)
             else:
@@ -58,7 +65,7 @@ class BaseModel:
         models.storage.new(self)
         models.storage.save()
 
-    def to_dict(self):
+    def to_dict(self, excl_pass=True):
         """returns a dictionary containing all keys/values of the instance"""
         new_dict = self.__dict__.copy()
         if "created_at" in new_dict:
@@ -68,6 +75,8 @@ class BaseModel:
         new_dict["__class__"] = self.__class__.__name__
         if "_sa_instance_state" in new_dict:
             del new_dict["_sa_instance_state"]
+        if excl_pass and "password" in new_dict:
+            del new_dict["password"]
         return new_dict
 
     def delete(self):

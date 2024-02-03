@@ -1,15 +1,15 @@
 #!/usr/bin/python3
-"""State objects that handles all default RESTFul API"""
-
+"""Importing modules"""
 from api.v1.views import app_views
 from flask import jsonify, make_response, request
 from models import storage
 from models.user import User
+import hashlib
 
 
-@app_views.route("/users", strict_slashes=False, methods=["GET"])
 @app_views.route("/users/<user_id>",
                  strict_slashes=False, methods=["GET"])
+@app_views.route("/users", strict_slashes=False, methods=["GET"])
 def users(user_id=None):
     """return a JSON: list of all users objects or one User,
     Or not found if id not exsit"""
@@ -75,12 +75,20 @@ def Update_user(user_id):
     Returns: the new User with the status code 200
     """
     json_data = request.get_json(force=True, silent=True)
-    if not storage.get(User, user_id):
+    user_instance = storage.get(User, user_id)
+    if not user_instance:
         return make_response(jsonify({"error": "Not found"}), 404)
+
     elif json_data:
         for key, value in json_data.items():
             if key not in ('id', 'email', 'created_at', 'updated_at'):
                 setattr(storage.all()[f"User.{user_id}"], key, value)
+                if 'password' in json_data:
+                    md5_hash = hashlib.md5()
+                    encoded_value = json_data['password'].encode('utf-8')
+                    md5_hash.update(encoded_value)
+                    hashed_password = md5_hash.hexdigest()
+                    setattr(user_instance, 'password', hashed_password)
                 storage.save()
         return jsonify(storage.all()[f"User.{user_id}"].to_dict()), 200
     else:
