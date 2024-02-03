@@ -25,9 +25,7 @@ def states(state_id=None):
         return jsonify(state.to_dict())
 
 
-@app_views.route("/states/<state_id>",
-                 strict_slashes=False,
-                 methods=["DELETE"])
+@app_views.route("/states/<state_id>", strict_slashes=False, methods=["DELETE"])
 def delete_states(state_id):
     """return a JSON: delete a state object that match State_id
     or Not found if id not exist"""
@@ -76,7 +74,7 @@ def Update_state(state_id):
         return make_response(jsonify({"error": "Not found"}), 404)
     elif json_data:
         for key, value in json_data.items():
-            if key not in ('id', 'created_at', 'updated_at'):
+            if key not in ("id", "created_at", "updated_at"):
                 setattr(storage.all()[f"State.{state_id}"], key, value)
                 storage.all()[f"State.{state_id}"].save()
         return jsonify(storage.all()[f"State.{state_id}"].to_dict()), 200

@@ -9,9 +9,7 @@ from models.city import City
 from models.state import State
 
 
-@app_views.route("/states/<state_id>/cities",
-                 strict_slashes=False,
-                 methods=["GET"])
+@app_views.route("/states/<state_id>/cities", strict_slashes=False, methods=["GET"])
 @app_views.route("/cities/<city_id>", strict_slashes=False, methods=["GET"])
 def cities(state_id=None, city_id=None):
     """Retrieves the list of all City objects of a State"""
@@ -42,9 +40,7 @@ def delete_city(city_id):
     return make_response(jsonify({}), 200)
 
 
-@app_views.route("/states/<state_id>/cities",
-                 strict_slashes=False,
-                 methods=["POST"])
+@app_views.route("/states/<state_id>/cities", strict_slashes=False, methods=["POST"])
 def Create_city(state_id):
     """
     If the state_id is not linked to any State object
@@ -60,7 +56,7 @@ def Create_city(state_id):
         if not storage.get(State, state_id):
             return make_response(jsonify({"error": "Not found"}), 404)
         if "name" in json_data:
-            json_data['state_id'] = state_id
+            json_data["state_id"] = state_id
             instance = City(**json_data)
             instance.save()
             return make_response(jsonify(instance.to_dict()), 201)
@@ -82,7 +78,7 @@ def Update_city(city_id):
         return make_response(jsonify({"error": "Not found"}), 404)
     elif json_data:
         for key, value in json_data.items():
-            if key not in ('id', 'created_at', 'updated_at'):
+            if key not in ("id", "created_at", "updated_at"):
                 setattr(storage.all()[f"City.{city_id}"], key, value)
                 storage.all()[f"City.{city_id}"].save()
         return jsonify(storage.all()[f"City.{city_id}"].to_dict()), 200

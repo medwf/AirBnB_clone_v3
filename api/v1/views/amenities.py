@@ -8,9 +8,7 @@ from models import storage
 from models.amenity import Amenity
 
 
-@app_views.route("/amenities/<amenity_id>",
-                 strict_slashes=False,
-                 methods=["GET"])
+@app_views.route("/amenities/<amenity_id>", strict_slashes=False, methods=["GET"])
 @app_views.route("/amenities", strict_slashes=False, methods=["GET"])
 def amenities(amenity_id=None):
     """return a JSON: list of all Amenity objects or one Amenity,
@@ -28,9 +26,7 @@ def amenities(amenity_id=None):
         return jsonify(amenity.to_dict())
 
 
-@app_views.route("/amenities/<amenity_id>",
-                 strict_slashes=False,
-                 methods=["DELETE"])
+@app_views.route("/amenities/<amenity_id>", strict_slashes=False, methods=["DELETE"])
 def delete_amenity(amenity_id):
     """return a JSON: delete a Amenity object that match <amenity_id>
     or Not found if id not exist"""
@@ -64,9 +60,7 @@ def Create_amenity():
         return make_response("Not a JSON", 400)
 
 
-@app_views.route("/amenities/<amenity_id>",
-                 strict_slashes=False,
-                 methods=["PUT"])
+@app_views.route("/amenities/<amenity_id>", strict_slashes=False, methods=["PUT"])
 def Update_amenity(amenity_id):
     """
     Update Amenity :
@@ -79,7 +73,7 @@ def Update_amenity(amenity_id):
         return make_response(jsonify({"error": "Not found"}), 404)
     elif json_data:
         for key, value in json_data.items():
-            if key not in ('id', 'created_at', 'updated_at'):
+            if key not in ("id", "created_at", "updated_at"):
                 setattr(storage.all()[f"Amenity.{amenity_id}"], key, value)
                 storage.save()
         return jsonify(storage.all()[f"Amenity.{amenity_id}"].to_dict()), 200

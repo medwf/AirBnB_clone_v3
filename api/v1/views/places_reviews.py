@@ -9,9 +9,7 @@ from models.review import Review
 from models.user import User
 
 
-@app_views.route("/places/<place_id>/reviews",
-                 strict_slashes=False,
-                 methods=["GET"])
+@app_views.route("/places/<place_id>/reviews", strict_slashes=False, methods=["GET"])
 @app_views.route("/reviews/<review_id>", strict_slashes=False, methods=["GET"])
 def reviews(place_id=None, review_id=None):
     """Retrieves the list of all review objects of a reviews
@@ -32,9 +30,7 @@ def reviews(place_id=None, review_id=None):
     return make_response(jsonify({"error": "Not found"}), 404)
 
 
-@app_views.route("/reviews/<review_id>",
-                 strict_slashes=False,
-                 methods=["DELETE"])
+@app_views.route("/reviews/<review_id>", strict_slashes=False, methods=["DELETE"])
 def delete_review(review_id):
     """return a JSON: delete a review object that match review_id
     or Not found if the id not match any exist review"""
@@ -46,9 +42,7 @@ def delete_review(review_id):
     return make_response(jsonify({}), 200)
 
 
-@app_views.route("/places/<place_id>/reviews",
-                 strict_slashes=False,
-                 methods=["POST"])
+@app_views.route("/places/<place_id>/reviews", strict_slashes=False, methods=["POST"])
 def create_review(place_id):
     """
     If the place_id is not linked to any City object, raise a 404 error
@@ -68,13 +62,13 @@ def create_review(place_id):
         if "user_id" not in json_data:
             return make_response("Missing user_id", 400)
 
-        if not storage.get(User, json_data['user_id']):
+        if not storage.get(User, json_data["user_id"]):
             return make_response(jsonify({"error": "Not found"}), 404)
 
         if "text" not in json_data:
             return make_response("Missing text", 400)
 
-        json_data['place_id'] = place_id
+        json_data["place_id"] = place_id
         instance = Review(**json_data)
         instance.save()
         return make_response(jsonify(instance.to_dict()), 201)
@@ -94,8 +88,7 @@ def update_review(review_id):
         return make_response(jsonify({"error": "Not found"}), 404)
     if json_data:
         for key, value in json_data.items():
-            if key not in ('id', 'user_id', 'place_id', 'created_at',
-                           'updated_at'):
+            if key not in ("id", "user_id", "place_id", "created_at", "updated_at"):
                 setattr(storage.all()[f"Review.{review_id}"], key, value)
                 storage.all()[f"Review.{review_id}"].save()
         return jsonify(storage.all()[f"Review.{review_id}"].to_dict()), 200
