@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""this is init for Flask module"""
+"""sharing app_views Blueprint to all module"""
 
 from flask import Blueprint
 app_views = Blueprint('app_views', __name__)

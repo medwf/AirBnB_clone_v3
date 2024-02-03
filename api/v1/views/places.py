@@ -8,7 +8,6 @@ from models.place import Place
 from models.user import User
 
 
-
 @app_views.route("/cities/<city_id>/places",
                  strict_slashes=False, methods=["GET"])
 @app_views.route("/places/<place_id>", strict_slashes=False, methods=["GET"])
