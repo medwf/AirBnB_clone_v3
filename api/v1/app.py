@@ -41,6 +41,19 @@ def not_found(_error):
     return make_response(jsonify({"error": "Not found"}), 404)
 
 
+@app.errorhandler(400)
+def not_found(error):
+    """
+    Return a JSON response for 400 errors.
+
+    This function is decorated with `@app.errorhandler(400)`
+    and is called when a 400 error occurs.
+    It returns a JSON response with an error message
+    indicating that the requested resource was not found.
+    """
+    return make_response(error.description, 400)
+
+
 if getenv("HBNB_API_HOST"):
     HOST = getenv("HBNB_API_HOST")
 else:
