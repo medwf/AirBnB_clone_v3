@@ -4,7 +4,7 @@
 This script sets up a Flask application for an AirBnB API, providing endpoints
 to interact with AirBnB data"""
 from os import getenv
-from flask import Flask, make_response, jsonify
+from flask import Flask, jsonify
 from flask_cors import CORS
 from api.v1.views import app_views
 from models import storage
@@ -38,7 +38,7 @@ def not_found(_error):
     It returns a JSON response with an error message
     indicating that the requested resource was not found.
     """
-    return make_response(jsonify({"error": "Not found"}), 404)
+    return jsonify({"error": "Not found"}), 404
 
 
 @app.errorhandler(400)
@@ -51,7 +51,7 @@ def not_found(error):
     It returns a JSON response with an error message
     indicating that the requested resource was not found.
     """
-    return make_response(error.description, 400)
+    return error.description, 400
 
 
 if getenv("HBNB_API_HOST"):
