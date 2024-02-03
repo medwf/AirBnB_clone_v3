@@ -1,5 +1,6 @@
 #!/usr/bin/python3
-"""import module"""
+"""State objects that handles all default RESTFul API"""
+
 from api.v1.views import app_views
 from flask import jsonify, make_response, request, abort
 from models import storage

@@ -1,14 +1,15 @@
 #!/usr/bin/python3
-"""Importing modules"""
+"""State objects that handles all default RESTFul API"""
+
 from api.v1.views import app_views
 from flask import jsonify, make_response, request
 from models import storage
 from models.user import User
 
 
+@app_views.route("/users", strict_slashes=False, methods=["GET"])
 @app_views.route("/users/<user_id>",
                  strict_slashes=False, methods=["GET"])
-@app_views.route("/users", strict_slashes=False, methods=["GET"])
 def users(user_id=None):
     """return a JSON: list of all users objects or one User,
     Or not found if id not exsit"""
