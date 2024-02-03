@@ -3,7 +3,7 @@
 
 This script sets up a Flask application for an AirBnB API, providing endpoints
 to interact with AirBnB data"""
-from os import getenv
+import os
 from flask import Flask, jsonify
 from flask_cors import CORS
 from api.v1.views import app_views
@@ -31,12 +31,12 @@ def not_found(error):
     return error.description, 400
 
 
-if getenv("HBNB_API_HOST"):
-    HOST = getenv("HBNB_API_HOST")
+if os.getenv("HBNB_API_HOST"):
+    HOST = os.getenv("HBNB_API_HOST")
 else:
     HOST = "0.0.0.0"
-if getenv("HBNB_API_PORT"):
-    PORT = int(getenv("HBNB_API_PORT"))
+if os.getenv("HBNB_API_PORT"):
+    PORT = int(os.getenv("HBNB_API_PORT"))
 else:
     PORT = 5000
 
