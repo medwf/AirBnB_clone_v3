@@ -60,7 +60,6 @@ def Create_state():
         return make_response("Not a JSON", 400)
 
 
-
 @app_views.route("/states/<state_id>", strict_slashes=False, methods=["PUT"])
 def Update_state(state_id):
     """
