@@ -151,15 +151,18 @@ def places_search():
                     result.append(place)
 
     if len(result) == 0:
-        result = storage.all(Place).values()
-    for place in result:
+        result = list(storage.all(Place).values())
+    for place in result.copy():
         for amenity_id in json_data.get("amenities", []):
             amenity = storage.get(Amenity, amenity_id)
             if amenity not in place.amenities:
-                result.pop(place)
+                result.remove(place)
                 break
 
     places = []
     for place in result:
-        places.append(place.to_dict())
+        place_dict = place.to_dict()
+        if 'amenities' in place_dict:
+            del place_dict['amenities']
+        places.append(place_dict)
     return jsonify(places), 200
