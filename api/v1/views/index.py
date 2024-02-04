@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""This is index views, route of blueprint"""
 
 from api.v1.views import app_views
 from models import storage
