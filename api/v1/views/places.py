@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """import module"""
 from flask import jsonify, make_response, request
-from tomlkit import value
 
 from api.v1.views import app_views
 from models import storage
