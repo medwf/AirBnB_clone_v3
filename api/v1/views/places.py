@@ -157,6 +157,7 @@ def places_search():
             amenity = storage.get(Amenity, amenity_id)
             if amenity not in place.amenities:
                 result.pop(place)
+                break
 
     places = []
     for place in result:
