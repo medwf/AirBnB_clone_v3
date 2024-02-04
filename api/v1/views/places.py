@@ -94,8 +94,8 @@ def update_placey(place_id):
     data = request.get_json(force=True, silent=True)
     if not data:
         return make_response("Not a JSON", 400)
-    for key, value in data.items():
-        if key not in ("id", "created_at", "updated_at"):
-            place.key = value
+    for cle, value in data.items():
+        if cle not in ("id", "created_at", "updated_at"):
+            setattr(place, cle, value)
     place.save()
     return jsonify(place.to_dict()), 200
