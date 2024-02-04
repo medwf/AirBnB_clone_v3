@@ -17,13 +17,13 @@ app.register_blueprint(app_views, url_prefix="/api/v1")
 
 
 @app.teardown_appcontext
-def close(_):
+def close(CXT):
     """Close the database session after each request."""
     storage.close()
 
 
 @app.errorhandler(404)
-def not_found(_):
+def not_found(EXP):
     """Handle 404 errors by returning a JSON response."""
     return {"error": "Not found"}, 404
 
