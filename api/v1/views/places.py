@@ -136,18 +136,20 @@ def places_search():
 
     for state_id in json_data.get("states", []):
         state = storage.get(State, state_id)
-        if state is not None:
-            cities = state.cities
-            for city in cities:
-                placess = city.places
-                for place in placess:
-                    result.append(place.to_dict())
+        if state:
+            for city in state.cities:
+                if city:
+                    for place in city.places:
+                        result.append(place)
 
-        for city_id in json_data.get("cities", []):
-            city = storage.get(City, city_id)
-            if city is not None:
-                places = city.places
-                for place in places:
-                    if place not in placess:
-                        result.append(place.to_dict())
-    return result, 200
+    for city_id in json_data.get("cities", []):
+        city = storage.get(City, city_id)
+        if city:
+            for place in city.places:
+                if place not in result:
+                    result.append(place)
+
+    places = []
+    for place in result:
+        places.append(place.to_dict())
+    return jsonify(places), 200
