@@ -106,3 +106,31 @@ def update_placey(place_id):
     place.longitude = data.get("longitude", place.longitude)
     place.save()
     return jsonify(place.to_dict()), 200
+
+
+@app_views.route("/places_search",
+                 strict_slashes=False,
+                 methods=["POST"])
+def places_search():
+    """
+    Search Places:
+    That retrieves all Place objects depending of the JSON
+    in the body of the request.
+    The JSON can contain 3 optional keys:
+    states: list of State ids
+    cities: list of City ids
+    amenities: list of Amenity ids
+    """
+    json_data = request.get_json(force=True, silent=True)
+    # print(json_data)
+    if json_data is None:
+        return make_response("Not a JSON", 400)
+
+    if len(json_data) == 0 or \
+            all(value == [] for value in json_data.values()):
+        result = []
+        places = storage.all(Place).values()
+        for place in places:
+            result.append(place.to_dict())
+        return jsonify(result)
+    return "fin a wald haj"
