@@ -4,7 +4,7 @@
 from api.v1.views import app_views
 from models import storage
 from models.state import State
-from flask import abort, request, jsonify
+from flask import make_response, request, jsonify
 
 
 @app_views.route("/states/<state_id>", strict_slashes=False, methods=["GET"])
@@ -21,7 +21,7 @@ def states(state_id=None):
     else:
         state = storage.get(State, state_id)
         if state is None:
-            abort(404)
+            return make_response(jsonify({"error": "Not found"}), 404)
         return jsonify(state.to_dict())
 
 
@@ -33,10 +33,10 @@ def delete_states(state_id):
     or Not found if id not exist"""
     state = storage.get(State, state_id)
     if state is None:
-        abort(404)
+        return make_response(jsonify({"error": "Not found"}), 404)
     storage.delete(state)
     storage.save()
-    return jsonify({}), 200
+    return make_response(jsonify({}), 200)
 
 
 @app_views.route("/states", strict_slashes=False, methods=["POST"])
@@ -53,11 +53,12 @@ def Create_state():
         if "name" in json_data:
             instance = State(**json_data)
             instance.save()
-            return jsonify(instance.to_dict), 201
+            return make_response(jsonify(instance.to_dict()), 201)
         else:
-            abort(400, "Missing name")
+            return make_response("Missing name", 400)
     else:
-        abort(400, "Not a JSON")
+        return make_response("Not a JSON", 400)
+
 
 
 @app_views.route("/states/<state_id>", strict_slashes=False, methods=["PUT"])
@@ -67,13 +68,12 @@ def Update_state(state_id):
         raise a 400 error with the message Not a JSON
     Returns: the new State with the status code 200
     """
-    """update state"""
     obj = storage.get(State, state_id)
     if obj is None:
-        abort(404)
+        return make_response(jsonify({"error": "Not found"}), 404)
     data = request.get_json(force=True, silent=True)
     if not data:
-        abort(400, "Not a JSON")
+        return make_response("Not a JSON", 400)
     obj.name = data.get("name", obj.name)
     obj.save()
     return jsonify(obj.to_dict()), 200
