@@ -8,6 +8,7 @@ from models.city import City
 from models.place import Place
 from models.user import User
 from models.state import State
+from models.amenity import Amenity
 
 
 @app_views.route("/cities/<city_id>/places",
@@ -148,6 +149,14 @@ def places_search():
             for place in city.places:
                 if place not in result:
                     result.append(place)
+
+    if len(result) == 0:
+        result = storage.all(Place).values()
+    for place in result:
+        for amenity_id in json_data.get("amenities", []):
+            amenity = storage.get(Amenity, amenity_id)
+            if amenity not in place.amenities:
+                result.pop(place)
 
     places = []
     for place in result:
