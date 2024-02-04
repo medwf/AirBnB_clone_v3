@@ -1,46 +1,34 @@
 #!/usr/bin/python3
-"""Endpoint (route) will be to return the status of your API"""
+"""Main module for the Flask web application."""
 import os
+
 from flask import Flask
-from models import storage
-from api.v1.views import app_views
 from flask_cors import CORS
 
+from api.v1.views import app_views
+from models import storage
 
-# creating a Flask app
+# Create a Flask app
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "0.0.0.0"}})
 
-
+# Register the blueprint for API routes
 app.register_blueprint(app_views, url_prefix="/api/v1")
 
 
-@app.errorhandler(404)
-def page_not_found(e):
-    return {"error": "Not found"}, 404
-
-
-@app.errorhandler(400)
-def page_not_found(e):
-    message = e.description
-    return message, 400
-
-
 @app.teardown_appcontext
-def close(ctx):
+def close(CXT):
+    """Close the database session after each request."""
     storage.close()
 
 
-if os.getenv("HBNB_API_HOST"):
-    host = os.getenv("HBNB_API_HOST")
-else:
-    host = "0.0.0.0"
-
-if os.getenv("HBNB_API_PORT"):
-    port = int(os.getenv("HBNB_API_PORT"))
-else:
-    port = 5000
+@app.errorhandler(404)
+def not_found(EXP):
+    """Handle 404 errors by returning a JSON response."""
+    return {"error": "Not found"}, 404
 
 
 if __name__ == "__main__":
-    app.run(host=host, port=port, threaded=True)
+    HOST = os.getenv('HBNB_API_HOST', "0.0.0.0")
+    PORT = int(os.getenv('HBNB_API_PORT', 5000))
+    app.run(host=HOST, port=PORT, threaded=True)
