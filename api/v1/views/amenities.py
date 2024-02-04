@@ -31,7 +31,7 @@ def amenities(amenity_id=None):
 @app_views.route("/amenities/<amenity_id>",
                  strict_slashes=False,
                  methods=["DELETE"])
-def delete_amenity(amenity_id):
+def Delete_amenity(amenity_id):
     """return a JSON: delete a Amenity object that match <amenity_id>
     or Not found if id not exist"""
     amenity = storage.get(Amenity, amenity_id)
