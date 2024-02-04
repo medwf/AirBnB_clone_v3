@@ -7,33 +7,32 @@ from models.state import State
 from flask import abort, request, jsonify
 
 
-@app_views.route("/states", strict_slashes=False, methods=["GET"])
 @app_views.route("/states/<state_id>", strict_slashes=False, methods=["GET"])
+@app_views.route("/states", strict_slashes=False, methods=["GET"])
 def states(state_id=None):
-    """show states and states with id"""
-    states_list = []
+    """return a JSON: list of all State objects or one State,
+    Or not found if id not exsit"""
     if state_id is None:
-        all_objs = storage.all(State).values()
-        for v in all_objs:
-            states_list.append(v.to_dict())
-        return jsonify(states_list)
+        result = []
+        states = storage.all(State).values()
+        for state in states:
+            result.append(state.to_dict())
+        return jsonify(result)
     else:
-        result = storage.get(State, state_id)
-        if result is None:
+        state = storage.get(State, state_id)
+        if state is None:
             abort(404)
-        return jsonify(result.to_dict())
+        return jsonify(state.to_dict())
 
 
-@app_views.route("/states/<state_id>",
-                 strict_slashes=False,
+@app_views.route("/states/<state_id>", strict_slashes=False,
                  methods=["DELETE"])
-def delete_states(state_id):
-    """return a JSON: delete a state object that match State_id
-    or Not found if id not exist"""
-    state = storage.get(State, state_id)
-    if state is None:
+def states_delete(state_id):
+    """delete method"""
+    obj = storage.get(State, state_id)
+    if obj is None:
         abort(404)
-    storage.delete(state)
+    storage.delete(obj)
     storage.save()
     return jsonify({}), 200
 
