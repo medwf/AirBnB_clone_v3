@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-"""Main module for the Flask web application."""
 import os
 
 from flask import Flask
