@@ -61,14 +61,20 @@ def Create_state():
 
 
 @app_views.route("/states/<state_id>", strict_slashes=False, methods=["PUT"])
-def update_state(state_id):
-    """update state"""
-    obj = storage.get(State, state_id)
-    if obj is None:
+def Update_state(state_id):
+    """
+    If the HTTP body request is not valid JSON,
+        raise a 400 error with the message Not a JSON
+    Returns: the new State with the status code 200
+    """
+    json_data = request.get_json(force=True, silent=True)
+    if not storage.get(State, state_id):
         abort(404)
-    data = request.get_json(force=True, silent=True)
-    if not data:
+    elif json_data:
+        for key, value in json_data.items():
+            if key == "name":
+                setattr(storage.all()[f"State.{state_id}"], key, value)
+        storage.all()[f"State.{state_id}"].save()
+        return jsonify(storage.all()[f"State.{state_id}"].to_dict()), 200
+    else:
         abort(400, "Not a JSON")
-    obj.name = data.get("name", obj.name)
-    obj.save()
-    return jsonify(obj.to_dict()), 200
