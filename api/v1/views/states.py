@@ -40,33 +40,35 @@ def delete_states(state_id):
 
 
 @app_views.route("/states", strict_slashes=False, methods=["POST"])
-def create_state():
-    """create a new post req"""
-    data = request.get_json(force=True, silent=True)
-    if not data:
-        abort(400, "Not a JSON")
-    if "name" not in data:
-        abort(400, "Missing name")
-    new_state = State(**data)
-    new_state.save()
-    return jsonify(new_state.to_dict()), 201
-
-
-@app_views.route("/states/<state_id>", strict_slashes=False, methods=["PUT"])
-def Update_state(state_id):
+def Create_state():
     """
     If the HTTP body request is not valid JSON,
         raise a 400 error with the message Not a JSON
-    Returns: the new State with the status code 200
+    If the dictionary doesn't contain the key name,
+        raise a 400 error with the message Missing name
+    Returns: the new State with the status code 201
     """
     json_data = request.get_json(force=True, silent=True)
-    if not storage.get(State, state_id):
-        abort(404)
-    elif json_data:
-        for key, value in json_data.items():
-            if key not in ("id", "created_at", "updated_at"):
-                setattr(storage.all()[f"State.{state_id}"], key, value)
-                storage.all()[f"State.{state_id}"].save()
-        return jsonify(storage.all()[f"State.{state_id}"].to_dict()), 200
+    if json_data:
+        if "name" in json_data:
+            instance = State(**json_data)
+            instance.save()
+            return jsonify(instance.to_dict), 201
+        else:
+            abort(400, "Missing name")
     else:
         abort(400, "Not a JSON")
+
+
+@app_views.route("/states/<state_id>", strict_slashes=False, methods=["PUT"])
+def update_state(state_id):
+    """update state"""
+    obj = storage.get(State, state_id)
+    if obj is None:
+        abort(404)
+    data = request.get_json(force=True, silent=True)
+    if not data:
+        abort(400, "Not a JSON")
+    obj.name = data.get("name", obj.name)
+    obj.save()
+    return jsonify(obj.to_dict()), 200
