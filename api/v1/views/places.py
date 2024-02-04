@@ -7,6 +7,7 @@ from models import storage
 from models.city import City
 from models.place import Place
 from models.user import User
+from models.state import State
 
 
 @app_views.route("/cities/<city_id>/places",
@@ -125,12 +126,28 @@ def places_search():
     # print(json_data)
     if json_data is None:
         return make_response("Not a JSON", 400)
-
+    result = []
     if len(json_data) == 0 or \
             all(value == [] for value in json_data.values()):
-        result = []
         places = storage.all(Place).values()
         for place in places:
             result.append(place.to_dict())
         return jsonify(result)
-    return "fin a wald haj"
+
+    for state_id in json_data.get("states", []):
+        state = storage.get(State, state_id)
+        if state is not None:
+            cities = state.cities
+            for city in cities:
+                placess = city.places
+                for place in placess:
+                    result.append(place.to_dict())
+
+        for city_id in json_data.get("cities", []):
+            city = storage.get(City, city_id)
+            if city is not None:
+                places = city.places
+                for place in places:
+                    if place not in placess:
+                        result.append(place.to_dict())
+    return result, 200
